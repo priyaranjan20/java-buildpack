@@ -115,15 +115,15 @@ module JavaBuildpack
       immutable_java_home = Component::ImmutableJavaHome.new mutable_java_home, app_dir
       
       #added
-      license_ids = get_license_hash
+#       license_ids = get_license_hash
       
       component_info = {
         'additional_libraries' => Component::AdditionalLibraries.new(app_dir),
         'application'          => application,
         'env_vars'             => Component::EnvironmentVariables.new(app_dir),
         'java_opts'            => Component::JavaOpts.new(app_dir),
-        'app_dir'              => app_dir,
-        'license_ids'          => license_ids
+        'app_dir'              => app_dir
+#         'license_ids'          => license_ids
       }
 
       instantiate_components(mutable_java_home, immutable_java_home, component_info)
@@ -138,18 +138,18 @@ module JavaBuildpack
     end
     
     #added n remove liberty license latter
-    def get_license_hash
-      jvm_license = 'IBM_JVM_LICENSE'
-      liberty_license = 'IBM_LIBERTY_LICENSE'
+#     def get_license_hash
+#       jvm_license = 'IBM_JVM_LICENSE'
+#       liberty_license = 'IBM_LIBERTY_LICENSE'
 
-      license_file = File.expand_path(LICENSE_CONFIG, File.dirname(__FILE__))
-      if File.exist? license_file
-        license_ids = YAML.load_file(license_file)
-      else
-        license_ids = { jvm_license => ENV[jvm_license], liberty_license => ENV[liberty_license] }
-      end
-      license_ids
-    end
+#       license_file = File.expand_path(LICENSE_CONFIG, File.dirname(__FILE__))
+#       if File.exist? license_file
+#         license_ids = YAML.load_file(license_file)
+#       else
+#         license_ids = { jvm_license => ENV[jvm_license], liberty_license => ENV[liberty_license] }
+#       end
+#       license_ids
+#     end
 
     def component_detection(type, components, unique)
       detected, _tags = detection type, components, unique
