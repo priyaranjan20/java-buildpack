@@ -122,7 +122,20 @@ module JavaBuildpack
         download(version, uri, name) do |file|
           with_timing "Expanding #{name} to #{target_directory.relative_path_from(@droplet.root)}" do
             FileUtils.mkdir_p target_directory
-            shell "tar x#{compression_flag(file)}f #{file.path} -C #{target_directory} --strip 1 2>&1"
+            if File.basename(file.path).end_with?('.bin.cached', '.bin')
+              response_file = Tempfile.new('response.properties')
+              response_file.puts('INSTALLER_UI=silent')
+              response_file.puts('LICENSE_ACCEPTED=TRUE')
+              response_file.puts("USER_INSTALL_DIR=#{java_home}")
+              response_file.close
+
+              File.chmod(0o755, file.path) unless File.executable?(file.path)
+              system "#{file.path} -i silent -f #{response_file.path} 2>&1"
+            else
+              system "tar xzf #{file.path} -C #{java_home} --strip 1 2>&1"
+            end
+            
+#             shell "tar x#{compression_flag(file)}f #{file.path} -C #{target_directory} --strip 1 2>&1"
           end
         end
       end
