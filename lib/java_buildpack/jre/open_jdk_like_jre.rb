@@ -33,6 +33,7 @@ module JavaBuildpack
         @component_name = context[:component_name]
         @configuration  = context[:configuration]
         @droplet        = context[:droplet]
+#         @license_id = context[:license_ids]['IBM_JVM_LICENSE']
 
         @droplet.java_home.root = @droplet.sandbox
       end
