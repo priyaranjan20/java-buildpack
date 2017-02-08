@@ -184,7 +184,7 @@ module JavaBuildpack
         context = {
           application:   component_info['application'],
           configuration: Util::ConfigurationUtils.load(component_id),
-          license_ids : component_info['license_ids']
+#           license_ids : component_info['license_ids']
           droplet:       Component::Droplet.new(component_info['additional_libraries'], component_id,
                                                 component_info['env_vars'], java_home,
                                                 component_info['java_opts'], component_info['app_dir'])
